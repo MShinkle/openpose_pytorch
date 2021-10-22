@@ -1,0 +1,6 @@
+README.md
+setup.py
+openpose_pytorch.egg-info/PKG-INFO
+openpose_pytorch.egg-info/SOURCES.txt
+openpose_pytorch.egg-info/dependency_links.txt
+openpose_pytorch.egg-info/top_level.txt
