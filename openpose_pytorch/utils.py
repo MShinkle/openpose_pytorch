@@ -3,7 +3,6 @@ import cv2
 from torchvision import transforms
 from torchvision.transforms import functional
 import numpy as np
-import gdown
 
 def load_and_transform(files, resolution=(500,500)):
     files_array = np.array([cv2.imread(file) for file in files]).transpose(0,3,1,2)

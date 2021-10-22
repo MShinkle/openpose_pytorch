@@ -2,8 +2,9 @@ import torch
 import torch.nn as nn
 import torch.utils.model_zoo as model_zoo
 from collections import OrderedDict
+import wget
 
-def make_layers(block, no_relu_layers):
+def _make_layers(block, no_relu_layers):
     layers = []
     for layer_name, v in block.items():
         if 'pool' in layer_name:
@@ -212,18 +213,28 @@ class HandPoseModel(nn.Module):
         return out_stage6
 
 model_urls = {
-    'body': 'https://www.dropbox.com/sh/7xbup2qsn7vvjxo/AABaYNMvvNVFRWqyDXl7KQUxa/body_pose_model.pth',
-    'hand': 'https://www.dropbox.com/sh/7xbup2qsn7vvjxo/AAApu9PiOpzGYEUqzIzsxqbFa/hand_pose_model.pth',
+    'body': 'https://www.dropbox.com/sh/7xbup2qsn7vvjxo/AABaYNMvvNVFRWqyDXl7KQUxa/body_pose_model.pth?dl=1',
+    'hand': 'https://www.dropbox.com/sh/7xbup2qsn7vvjxo/AAApu9PiOpzGYEUqzIzsxqbFa/hand_pose_model.pth?dl=1',
 }
 
-def bodypose(pretrained=False, **kwargs):
+def body_pose(pretrained=False, **kwargs):
     model = BodyPoseModel(**kwargs)
     if pretrained:
-        model.load_state_dict(model_zoo.load_url(model_urls['body']))
+        filename = wget.download(model_urls['body'])
+        state_dict = torch.load(filename)
+        model_state_dict = {}
+        for name in model.state_dict().keys():
+            model_state_dict[name] = state_dict['.'.join(name.split('.')[1:])]
+        model.load_state_dict(model_state_dict)
     return model
 
-def handpose(pretrained=False, **kwargs):
+def hand_pose(pretrained=False, **kwargs):
     model = HandPoseModel(**kwargs)
     if pretrained:
-        model.load_state_dict(model_zoo.load_url(model_urls['hand']))
+        filename = wget.download(model_urls['hand'])
+        state_dict = torch.load(filename)
+        model_state_dict = {}
+        for name in model.state_dict().keys():
+            model_state_dict[name] = state_dict['.'.join(name.split('.')[1:])]
+        model.load_state_dict(model_state_dict)
     return model
