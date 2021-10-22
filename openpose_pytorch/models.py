@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import torch.utils.model_zoo as model_zoo
 from collections import OrderedDict
+import wget
 
 def _make_layers(block, no_relu_layers):
     layers = []
