@@ -140,13 +140,22 @@ def get_candidates_subsets(heatmaps, pafs, thresh_1 = 0.1, thresh_2 = 0.05):
         subsets.append(subset)
     return candidates, subsets
 
-def get_keypoints(candidates, subsets):
-    k = len(subsets)
-    keypoints = torch.zeros((k, 18, 3), dtype=torch.int)
-    for i in range(k):
-        for j in range(18):
-            index = subsets[i][j].to(int)
-            if index != -1:
-                x, y = candidates[index][:2].to(int)
-                keypoints[i][j] = torch.tensor([x, y, 1])
-    return keypoints
+def get_keypoints(batch_candidates, batch_subsets):
+    batch_keypoints = []
+    for candidates, subsets in zip(batch_candidates, batch_subsets):
+        n_detected = len(subsets)
+        keypoints = torch.empty((n_detected, 18, 3),)
+        for i in range(n_detected):
+            subset = subsets[i]
+            if len(subset) != 0:
+                for j in range(18):
+                    index = subset[j].to(int)
+                    if index != -1:
+                        x, y = candidates[index][:2].to(int)
+                        keypoints[i][j] = torch.tensor([x, y, 1])
+                    else:
+                        keypoints[i][j][:] = float('nan')
+            else:
+                keypoints[i][:] = float('nan')
+        batch_keypoints.append(keypoints)
+    return batch_keypoints
