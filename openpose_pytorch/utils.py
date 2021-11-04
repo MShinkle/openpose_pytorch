@@ -4,6 +4,8 @@ from torchvision import transforms
 from torchvision.transforms import functional
 import numpy as np
 
+heatmap_labels = ["Nose","Neck","RShoulder","RElbow","RWrist","LShoulder","LElbow","LWrist","RHip","RKnee","RAnkle","LHip","LKnee","LAnkle","REye","LEye","REar","LEar",]
+
 def load_and_transform(files, resolution=(500,500)):
     files_array = np.array([cv2.imread(file) for file in files]).transpose(0,3,1,2)
     vertical, horizontal = files_array.shape[2:]
