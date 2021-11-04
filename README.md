@@ -53,7 +53,11 @@ This will return a list of n_people x 18 x 3 keypoints tensors for each input im
 
 # TODO
 The majority of computational time is in the get_candidates_subsets step.  Refactoring could substantially improve runtime.
+
 face and hand keypoints
+
 higher-level wrapper
+
 detection of isolated parts (e.g. hands + arm)
+
 segmentation approximation
