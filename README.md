@@ -2,7 +2,7 @@
 
 Batch processing of images for pose estimation via OpenPose (currently only body keypoints).  Implemented in PyTorch.
 
-Based heavily on https://github.com/Hzzone/pytorch-openpose, but with support for batch processing and some simplification.
+Based heavily on https://github.com/Hzzone/pytorch-openpose, but with simplification, support for batch processing and conda-based setup.
 
 # Setup
 
